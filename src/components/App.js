@@ -4,7 +4,26 @@ import About from './About';
 import { Link, Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      homeTitle: 'Home',
+      aboutTitle: 'About'
+    }
+    this.changeTitles = this.changeTitles.bind(this);
+  }
+  
+  changeTitles(){
+    const {homeTitle, aboutTitle} = this.state;
+
+    this.setState({
+      homeTitle: homeTitle.toUpperCase(),
+      aboutTitle: aboutTitle.toUpperCase(),
+    })
+  }
   render() {
+    const {homeTitle, aboutTitle} = this.state;
     return (
       <div className="page">
         <header className="header">
@@ -17,9 +36,10 @@ class App extends React.Component {
         </header>
         <main className="main">
           <Switch>
-            <Route exact path='/' component={ Home } />
-            <Route path='/about' component={ About } />
+            <Route exact path='/' render={() => <Home title={homeTitle}/> } />
+            <Route path='/about' render={() => <About title={aboutTitle}/> } />
           </Switch>
+          <button onClick={this.changeTitles}>Click me!</button>
         </main>
       </div>
     );
